@@ -61,26 +61,48 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to redirect_to Question.last
     end
   end
-    
-  describe "PUT update" do
-    it "updates post with expected attributes" do
-      new_title = RandomData.random_sentence
-      new_body = RandomData.random_paragraph
-      put :update, id: my_post.id, post: {title: new_title, body: new_body}
-      
-      updated_post = assigns(:post)
-      expect(updated_post.id).to eq(my_post.id)
-      expect(updated_post.title).to eq(new_title)
-      expect(updated_post.body).to eq(new_body)
+
+  describe "GET edit" do
+    it "returns http success" do
+      get :edit, {id: my_question.id}
+      expect(response).to have_http_status(:success)
     end
-    
-    it "redirects to the updated post" do
-      new_title = RandomData.random_sentence
-      new_body = RandomData.random_paragraph
-      put :update, id: my_post.id, post: {title: new_title, body: new_body}
-      expect(response).to redirect_to(my_post)
+    it "renders the #edit view" do
+      get :edit, {id: my_question.id}
+      expect(response).to render_template :edit
     end
   end
-  
+
+  describe "PUT update" do
+    it "updates question with expected attributes" do
+      new_title = RandomData.random_sentence
+      new_body = RandomData.random_paragraph
+      put :update, id: my_question.id, question: {title: new_title, body: new_body, resolved: false}
+      
+      updated_question = assigns(:question)
+      expect(updated_question.id).to eq(my_question.id)
+      expect(updated_question.title).to eq(new_title)
+      expect(updated_question.body).to eq(new_body)
+    end
+    
+    it "redirects to the updated question" do
+      new_title = RandomData.random_sentence
+      new_body = RandomData.random_paragraph
+      put :update, id: my_question.id, question: {title: new_title, body: new_body, resolved: true}
+      expect(response).to redirect_to(my_question)
+    end
+  end
+
+  describe "DELETE destroy" do
+    it "deletes the question entry" do
+      delete :destroy, {id: my_question.id}
+      count = Question.where({id: my_question.id}).size
+      expect(count).to eq(0)
+    end
+    it "redirects to question index" do
+      delete :destroy, {id: my_question.id}
+      expect(response).to redirect_to questions_path
+    end
+  end
 
 end

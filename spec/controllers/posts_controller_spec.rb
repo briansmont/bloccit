@@ -40,25 +40,24 @@ RSpec.describe PostsController, type: :controller do
       get :new
       expect(response).to render_template :new
     end
-    it "instantiates @question" do
+    it "instantiates @post" do
       get :new
       expect(assigns(:post)).not_to be_nil
     end
   end
-  
   describe "POST create" do
-    it "increases the number of Questions by 1" do
-      expect{post :create, question: {title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false}}.to change(Post, :count).by(1)
+    it "increases the number of Post by 1" do
+      expect{post :create, post: {title: RandomData.random_sentence, body: RandomData.random_paragraph}}.to change(Post, :count).by(1)
     end
     
-    it "assigns the new post to @question" do
-      post :create, question: {title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false}
-      expect(assigns(:question)).to eq Post.last
+    it "assigns the new post to @post" do
+      post :create, post: {title: RandomData.random_sentence, body: RandomData.random_paragraph}
+      expect(assigns(:post)).to eq Post.last
     end
     
-    it "redirects to the new question" do
-      post :create, question: {title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false}
-      expect(response).to redirect_to Question.last
+    it "redirects to the new post" do
+      post :create, post: {title: RandomData.random_sentence, body: RandomData.random_paragraph}
+      expect(response).to redirect_to Post.last
     end
   end
     
