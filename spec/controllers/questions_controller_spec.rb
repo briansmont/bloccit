@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe PostsController, type: :controller do
+RSpec.describe QuestionsController, type: :controller do
 
-  let(:my_post) {Post.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph) }
+  let(:my_question) {Question.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false) }
 
   describe "GET #index" do
     it "returns http success" do
@@ -10,24 +10,24 @@ RSpec.describe PostsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
     
-    it "assigns [my_post] to @posts" do
+    it "assigns [my_question] to @questionss" do
       get :index
-      expect(assigns(:posts)).to eq([my_post])
+      expect(assigns(:questions)).to eq([my_question])
     end
   end
 
   describe "GET show" do
     it "returns http success" do
-      get :show, {id: my_post.id}
+      get :show, {id: my_question.id}
       expect(response).to have_http_status(:success)
     end
     it "renders the #show view" do
-      get :show, {id: my_post.id}
+      get :show, {id: my_question.id}
       expect(response).to render_template :show
     end
-    it "assigns my_post to @post" do
-      get :show, {id: my_post.id}
-      expect(assigns(:post)).to eq(my_post)
+    it "assigns my_question to @question" do
+      get :show, {id: my_question.id}
+      expect(assigns(:question)).to eq(my_question)
     end
   end
   
@@ -42,18 +42,18 @@ RSpec.describe PostsController, type: :controller do
     end
     it "instantiates @question" do
       get :new
-      expect(assigns(:post)).not_to be_nil
+      expect(assigns(:question)).not_to be_nil
     end
   end
   
   describe "POST create" do
     it "increases the number of Questions by 1" do
-      expect{post :create, question: {title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false}}.to change(Post, :count).by(1)
+      expect{post :create, question: {title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false}}.to change(Question, :count).by(1)
     end
     
     it "assigns the new post to @question" do
       post :create, question: {title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false}
-      expect(assigns(:question)).to eq Post.last
+      expect(assigns(:question)).to eq Question.last
     end
     
     it "redirects to the new question" do
@@ -80,40 +80,7 @@ RSpec.describe PostsController, type: :controller do
       put :update, id: my_post.id, post: {title: new_title, body: new_body}
       expect(response).to redirect_to(my_post)
     end
-    
   end
   
 
-
-
-  describe "GET edit" do
-    it "returns http success" do
-      get :edit, {id: my_post.id}
-      expect(response).to have_http_status(:success)
-    end
-    it "renders the #edit view" do
-      get :edit, {id: my_post.id}
-      expect(response).to render_template :edit
-    end
-    it "assigns the post to be updated to @post" do
-      get :edit, {id: my_post.id}
-      post_instance = assigns(:post)
-      
-      expect(post_instance.id).to eq(my_post.id)
-      expect(post_instance.title).to eq(my_post.title)
-      expect(post_instance.body).to eq(my_post.body)
-    end
-  end
-
-  describe "DELETE destroy" do
-    it "deletes the post entry" do
-      delete :destroy, {id: my_post.id}
-      count = Post.where({id: my_post.id}).size
-      expect(count).to eq(0)
-    end
-    it "redirects to posts index" do
-      delete :destroy, {id: my_post.id}
-      expect(response).to redirect_to posts_path
-    end
-  end
 end
