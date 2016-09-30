@@ -39,11 +39,18 @@ posts = Post.all
     body: RandomData.random_paragraph
     )
 end
-
-user = User.first
-user.update_attributes!(
-  email: 'briansmont830@gmail.com', 
-  password: 'password'
+#create admin
+admin = User.create!(
+  name: "Admin User",
+  email: "admin@bloccit.com",
+  password: "password",
+  role: "admin"
+)
+member = User.create!(
+  name: "Member user",
+  email: "member@bloccit.com",
+  password: "password",
+  role: "member"
 )
 
 puts "Seed finished"
