@@ -52,7 +52,12 @@ member = User.create!(
   password: "password",
   role: "member"
 )
-
+moderator = User.create!(
+  name: "moderator",
+  email: "moderator@bloccit.com",
+  password: "password",
+  role: "moderator"
+)
 puts "Seed finished"
 puts "#{User.count} users created"
 puts "#{Topic.count} topics created"
