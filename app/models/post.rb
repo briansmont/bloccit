@@ -2,9 +2,9 @@ class Post < ActiveRecord::Base
   belongs_to :topic
   belongs_to :user
   has_many :comments, dependent: :destroy
-  
   has_many :votes, dependent: :destroy
   
+  after_create :create_vote
   default_scope { order('rank DESC') }
   
   validates :title, length: {minimum: 5}, presence: true
@@ -30,5 +30,11 @@ class Post < ActiveRecord::Base
     new_rank = points + age_in_days
     update_attribute(:rank, new_rank)
   end
+  
+  private
+  def create_vote
+    user.votes.create(post: self, value: 1)
+  end
+  
   
 end
