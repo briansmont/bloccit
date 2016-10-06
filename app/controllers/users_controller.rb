@@ -30,6 +30,9 @@ class UsersController < ApplicationController
     return @user
   end
   
-  
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts.visible_to(current_user)
+  end
   
 end
