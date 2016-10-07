@@ -101,4 +101,39 @@ RSpec.describe User, type: :model do
     end
   end
   
+  describe ".has_posts?" do
+    it 'returns false if the user has no posts' do
+      expect(user.has_posts?).to eq(false)
+    end
+    it 'returns true if the user has created any posts' do
+      topic = Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph)
+      post = topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user)
+      expect(user.has_posts?).to eq(true)
+    end
+  end
+  describe ".has_comments" do
+    it 'returns false if the user has no comments' do
+      expect(user.has_comments?).to eq(false)
+    end
+    it 'returns true if the user has created any comments' do
+      topic = Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph)
+      post = topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user)
+      comment = Comment.create!(body: "Comment Body", post: post, user: user)
+      expect(user.has_comments?).to eq(true)
+    end
+  end
+  
+  describe ".has_any_favorites?" do
+    it "returns false if the user has not favorited any post" do
+      expect(user.has_any_favorites?).to eq(false)
+    end
+    it "returns true if the user has any favorite posts" do
+      topic = create(:topic)
+      post = create(:post)
+      favorite = Favorite.create!(post: post, user: user)
+      expect(user.has_any_favorites?).to eq(true)
+    end
+    
+  end
+  
 end
