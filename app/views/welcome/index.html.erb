@@ -1,10 +1,14 @@
 <br>
 <div class="jumbotron center-background">
-  <h1 class="title"><span class="red-font">Sports <em>EDGE</em></span></h1>
+  <h1 class="title"><strong><span class="red-font">Sports <em>EDGE</em></span></strong></h1>
   <p>Sports <em>EDGE</em> is a resource for sharing links with your friends!</p>
   <p>
-  <%= link_to "Sign In", new_session_path %> or
-  <%= link_to "Sign Up", new_user_path, class: 'btn btn-primary' %> today!
+    <% if current_user %>
+      <em><%= link_to "Check out what's new!", topics_path %></em>
+    <% else %>
+      <%= link_to "Sign In", new_session_path %> or
+      <%= link_to "Sign Up", new_user_path, class: 'btn btn-primary' %> today!
+    <% end %>
   </p>
 </div>
   
@@ -18,9 +22,10 @@
     <p>As soon as trades/injuries/anything happens people will be chatting about it here!</p>
   </div>
   <div class="col-md-4">
-    <h2>Open community for all sports fans!</h2>
+    <h2>Chat it out!</h2>
     <p>If you want camaraderie or trash talk, it's all here! Find friend and foe on the message boards!</p>
   </div>
+  
   <div>
     <img src="http://www.itwitsports.com/wp-content/uploads/2016/05/Sports-Logo.jpg" class="img-responsive">
   </div>
